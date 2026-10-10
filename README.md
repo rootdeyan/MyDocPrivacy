@@ -8,25 +8,6 @@ stripping, re-encoding, and the "history" list — runs as JavaScript inside
 your own browser tab. No file is ever uploaded anywhere; there is no
 backend at all.
 
-## Host it on GitHub Pages
-
-1. Create a new GitHub repository and push these files to it (the repo root
-   should contain `index.html` directly, not inside a subfolder).
-2. In the repo, go to **Settings → Pages**.
-3. Under **Build and deployment → Source**, choose **Deploy from a branch**,
-   pick your default branch (e.g. `main`) and `/ (root)`, then **Save**.
-4. GitHub gives you a URL like `https://<your-username>.github.io/<repo>/`
-   within a minute or two. No build step, no dependencies to install.
-
-To test locally, run any static file server from the project folder
-(opening `index.html` directly as `file://` mostly works too, but some
-browsers restrict Worker loading from `file://`):
-
-```bash
-python3 -m http.server 8080
-# then open http://localhost:8080
-```
-
 ## Automatic scanning, then a review step — not a black box
 
 The moment a file finishes decoding, Obscura scans it for patterns that
@@ -185,17 +166,3 @@ actual visual rendering, and the full click/drag interaction feel, since
 this environment has no real browser to run one in. Please try it with a
 real file before relying on it for anything sensitive, and open the
 DevTools console if anything looks off.
-
-## File structure
-
-```
-index.html
-css/style.css
-js/app.js                  UI wiring: queue, scanning flow, drawing, history
-js/processors.js           Image/PDF decoding, redaction compositing, export
-js/scan.js                 PII detection (regex + checksums), PDF text scan, OCR
-js/vendor/                 Local copies of pdf.js + pdf-lib
-vendor/fontawesome/        Local copy of Font Awesome Free (solid + regular)
-vendor/tesseract/          Local copy of Tesseract.js (worker, core, English + Bulgarian data)
-vendor/heic2any/           Local, self-contained HEIC/HEIF-to-PNG decoder
-```
