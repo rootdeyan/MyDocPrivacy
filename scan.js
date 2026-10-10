@@ -125,7 +125,8 @@ const ObscuraScan = (() => {
       while ((m = det.re.exec(text))) {
         const match = m[0];
         if (det.validate(match)) {
-          candidates.push({ start: m.index, end: m.index + match.length, category: det.category, label: det.label, icon: det.icon, confidence: det.confidence, text: match });
+          const trimmed = match.replace(/[\s-]+$/, ''); // card pattern can swallow a trailing space
+          candidates.push({ start: m.index, end: m.index + trimmed.length, category: det.category, label: det.label, icon: det.icon, confidence: det.confidence, text: trimmed });
         }
         if (match.length === 0) det.re.lastIndex++;
       }

@@ -34,7 +34,7 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-inner">
-      <p class="eyebrow">Private by construction, not by policy</p>
+      <p class="eyebrow"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Private by construction, not by policy</p>
       <h1 class="hero-title">
         Black out the
         <span class="redact-word" id="redactWord">
@@ -56,8 +56,14 @@
           <span>Start obscuring</span>
           <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
         </a>
-        <a href="#how" class="btn btn-ghost">How it works</a>
+        <a href="#how" class="btn btn-ghost"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>How it works</span></a>
       </div>
+      <ul class="trust-chips">
+        <li><i class="fa-solid fa-lock" aria-hidden="true"></i> Nothing uploaded</li>
+        <li><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Auto-detects personal data</li>
+        <li><i class="fa-solid fa-eye-slash" aria-hidden="true"></i> Permanent black bars</li>
+        <li><i class="fa-solid fa-language" aria-hidden="true"></i> English &amp; Bulgarian</li>
+      </ul>
     </div>
   </section>
 
@@ -93,6 +99,26 @@
     </div>
   </section>
 
+  <!-- WHAT IT FINDS -->
+  <section class="finds" id="finds">
+    <div class="finds-inner">
+      <div class="finds-head reveal">
+        <h2>What it looks for</h2>
+        <p>Everything is checked on this device, and every match is shown to you before anything is hidden.</p>
+      </div>
+      <div class="finds-grid">
+        <article class="find-card glass reveal"><span class="find-icon"><i class="fa-solid fa-at" aria-hidden="true"></i></span><h3>Email addresses</h3><p>Any address, any domain.</p></article>
+        <article class="find-card glass reveal"><span class="find-icon"><i class="fa-solid fa-phone" aria-hidden="true"></i></span><h3>Phone numbers</h3><p>International formats with country codes.</p></article>
+        <article class="find-card glass reveal"><span class="find-icon"><i class="fa-solid fa-credit-card" aria-hidden="true"></i></span><h3>Card numbers</h3><p>Confirmed with the Luhn checksum, so look-alikes are skipped.</p></article>
+        <article class="find-card glass reveal"><span class="find-icon"><i class="fa-solid fa-building-columns" aria-hidden="true"></i></span><h3>IBANs</h3><p>Confirmed with the mod-97 bank checksum.</p></article>
+        <article class="find-card glass reveal"><span class="find-icon"><i class="fa-solid fa-id-card" aria-hidden="true"></i></span><h3>National IDs</h3><p>Bulgarian EGN (checksum-verified), US-style SSN, other ID-like numbers.</p></article>
+        <article class="find-card glass reveal"><span class="find-icon"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></span><h3>Hidden metadata</h3><p>GPS location, device and author details are stripped on export.</p></article>
+        <article class="find-card glass reveal"><span class="find-icon"><i class="fa-solid fa-mobile-screen" aria-hidden="true"></i></span><h3>iPhone photos</h3><p>HEIC/HEIF, plus JPG, PNG, WEBP, GIF, BMP and PDF.</p></article>
+        <article class="find-card glass reveal"><span class="find-icon"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></span><h3>Many files, in order</h3><p>Batch them, and downloads come back numbered in upload order.</p></article>
+      </div>
+    </div>
+  </section>
+
   <!-- WORKSPACE -->
   <section class="workspace" id="workspace">
     <div class="workspace-inner">
@@ -106,7 +132,13 @@
           </div>
           <p class="dz-title">Drop images or PDFs here</p>
           <p class="dz-sub">or click to browse &middot; select several at once &middot; processed entirely on this device</p>
-          <p class="dz-formats">JPEG &middot; PNG &middot; WEBP &middot; GIF &middot; BMP &middot; HEIC/HEIF &middot; PDF &middot; up to 60&nbsp;MB each &middot; scanned in English &amp; Bulgarian</p>
+          <div class="dz-chips">
+            <span><i class="fa-regular fa-file-pdf" aria-hidden="true"></i> PDF</span>
+            <span><i class="fa-regular fa-image" aria-hidden="true"></i> JPG &middot; PNG &middot; WEBP</span>
+            <span><i class="fa-solid fa-film" aria-hidden="true"></i> GIF &middot; BMP</span>
+            <span><i class="fa-solid fa-mobile-screen" aria-hidden="true"></i> HEIC / HEIF</span>
+          </div>
+          <p class="dz-formats">up to 60&nbsp;MB each &middot; scanned in English &amp; Bulgarian</p>
         </div>
       </div>
 
@@ -154,11 +186,11 @@
           <div class="findings-head">
             <p id="findingsSummary"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> 0 possible matches found</p>
             <div class="findings-actions">
-              <button type="button" class="btn btn-ghost btn-small" id="rejectAllFindings">Reject all</button>
-              <button type="button" class="btn btn-primary btn-small" id="applyFindings">Apply accepted</button>
+              <button type="button" class="btn btn-ghost btn-small" id="rejectAllFindings"><i class="fa-solid fa-ban" aria-hidden="true"></i> Reject all</button>
+              <button type="button" class="btn btn-primary btn-small" id="applyFindings"><i class="fa-solid fa-check" aria-hidden="true"></i> Apply accepted</button>
             </div>
           </div>
-          <p class="findings-note">Automatic matches are a starting point, not a guarantee &mdash; check each one below (click a row to jump to it) before applying, and mark anything else by hand.</p>
+          <p class="findings-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Automatic matches are a starting point, not a guarantee &mdash; check each one below (click a row to jump to it) before applying, and mark anything else by hand.</p>
           <div class="findings-list" id="findingsList"></div>
         </div>
 
@@ -193,13 +225,13 @@
     <div class="history-inner">
       <div class="history-head reveal">
         <div>
-          <h2>Local history</h2>
+          <h2><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i> Local history</h2>
           <p>Kept only in this browser's storage &mdash; clearing your browser data clears this too.</p>
         </div>
-        <button type="button" class="btn btn-ghost btn-small" id="clearHistory">Clear history</button>
+        <button type="button" class="btn btn-ghost btn-small" id="clearHistory"><i class="fa-solid fa-trash-can" aria-hidden="true"></i> Clear history</button>
       </div>
       <div class="history-list reveal" id="historyList">
-        <p class="history-empty" id="historyEmpty">Nothing obscured yet. Your finished files will show up here.</p>
+        <p class="history-empty" id="historyEmpty"><i class="fa-regular fa-folder-open" aria-hidden="true"></i><br>Nothing obscured yet. Your finished files will show up here.</p>
       </div>
     </div>
   </section>
@@ -207,7 +239,7 @@
   <footer class="footer">
     <div class="footer-inner">
       <p><strong>Nothing you open here is ever sent anywhere.</strong> Obscura runs entirely as JavaScript in this browser tab &mdash; file reading, redacting, re-encoding and history storage all happen locally. The page's own fonts/icons are the only network requests involved, and can be removed for a fully offline copy (see the README).</p>
-      <p class="footer-meta">Built for one job: make the sensitive part unreadable, then let you keep the rest &mdash; in order.</p>
+      <p class="footer-meta"><i class="fa-solid fa-file-shield" aria-hidden="true"></i> Built for one job: make the sensitive part unreadable, then let you keep the rest &mdash; in order.</p>
     </div>
   </footer>
 

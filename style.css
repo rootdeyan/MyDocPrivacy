@@ -578,3 +578,114 @@ a{ color: inherit; }
   .queue-row{ flex-wrap: wrap; }
   .queue-name{ order: 1; flex-basis: 100%; }
 }
+
+/* =========================================================
+   Icon polish: trust chips, "what it looks for" grid, tiles
+   ========================================================= */
+.eyebrow i{ margin-right: 8px; }
+
+.trust-chips{
+  list-style: none; margin: 38px 0 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+.trust-chips li{
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 8px 15px; border-radius: 999px;
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  font-family: var(--font-mono); font-size: 12px; color: var(--fog);
+  animation: chipIn .7s var(--ease-snap) both;
+}
+.trust-chips li i{ color: var(--amber); font-size: 12px; }
+.trust-chips li:nth-child(1){ animation-delay: .9s; }
+.trust-chips li:nth-child(2){ animation-delay: 1.0s; }
+.trust-chips li:nth-child(3){ animation-delay: 1.1s; }
+.trust-chips li:nth-child(4){ animation-delay: 1.2s; }
+@keyframes chipIn{
+  from{ opacity: 0; transform: translateY(10px); }
+  to{ opacity: 1; transform: none; }
+}
+
+/* how-it-works: icon in a small glass tile */
+.step-icon{
+  width: 38px; height: 38px; border-radius: 11px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(232,176,75,0.09); border: 1px solid rgba(232,176,75,0.22);
+  color: var(--amber); font-size: 15px;
+}
+
+/* what it looks for */
+.finds{ padding: 0 24px 88px; }
+.finds-inner{ max-width: var(--maxw); margin: 0 auto; }
+.finds-head h2{ font-size: 1.6rem; }
+.finds-head p{ margin-top: 8px; color: var(--fog); max-width: 56ch; font-size: .95rem; }
+.finds-grid{
+  margin-top: 30px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+}
+.find-card{
+  border-radius: var(--radius-md); padding: 22px 20px;
+  transition: transform .3s var(--ease-snap), border-color .3s, background .3s;
+}
+.find-card:hover{
+  transform: translateY(-4px);
+  border-color: rgba(232,176,75,0.38); background: var(--glass-bg-2);
+}
+.find-icon{
+  width: 44px; height: 44px; border-radius: 13px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(232,176,75,0.09); border: 1px solid rgba(232,176,75,0.24);
+  color: var(--amber); font-size: 17px;
+  transition: box-shadow .3s, background .3s;
+}
+.find-card:hover .find-icon{
+  background: rgba(232,176,75,0.16);
+  box-shadow: 0 0 22px rgba(232,176,75,0.28);
+}
+.find-card h3{ margin-top: 16px; font-size: 1rem; }
+.find-card p{ margin-top: 6px; color: var(--fog); font-size: .85rem; line-height: 1.5; }
+.find-card.reveal:nth-child(2), .find-card.reveal:nth-child(6){ transition-delay: .06s; }
+.find-card.reveal:nth-child(3), .find-card.reveal:nth-child(7){ transition-delay: .12s; }
+.find-card.reveal:nth-child(4), .find-card.reveal:nth-child(8){ transition-delay: .18s; }
+
+/* dropzone format chips */
+.dz-chips{
+  margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+}
+.dz-chips span{
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 13px; border-radius: 999px;
+  background: rgba(255,255,255,0.045); border: 1px solid var(--glass-border);
+  font-family: var(--font-mono); font-size: 11.5px; color: var(--fog);
+}
+.dz-chips span i{ color: var(--amber-soft); font-size: 12px; }
+.dz-formats{ margin-top: 14px; }
+.dropzone:hover .dz-icon, .dropzone.dragging .dz-icon{ transform: translateY(-3px); }
+.dz-icon{ transition: transform .3s var(--ease-snap); }
+
+/* small inline icons */
+.findings-note i{ color: var(--amber-soft); margin-right: 5px; }
+.history-head h2 i{ color: var(--amber-soft); font-size: .8em; margin-right: 8px; }
+.history-empty i{ font-size: 24px; color: var(--fog-dim); margin-bottom: 10px; }
+.footer-meta i{ color: var(--amber-soft); margin-right: 6px; }
+.queue-status i{ margin-right: 3px; font-size: 9px; }
+.queue-row .btn-small i{ font-size: .9em; }
+
+@media (prefers-reduced-motion: reduce){
+  .trust-chips li{ animation: none; }
+  .find-card, .find-card:hover{ transform: none; }
+}
+@media (max-width: 900px){
+  .finds-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px){
+  .finds{ padding: 0 16px 56px; }
+  .finds-grid{ gap: 10px; }
+  .find-card{ padding: 18px 16px; }
+  .trust-chips{ margin-top: 28px; gap: 8px; }
+  .trust-chips li{ font-size: 11px; padding: 7px 12px; }
+  .dz-chips span{ font-size: 10.5px; padding: 5px 10px; }
+}
+@media (max-width: 420px){
+  .finds-grid{ grid-template-columns: 1fr; }
+}

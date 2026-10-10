@@ -112,8 +112,12 @@
     const name = (file.name || '').toLowerCase();
     const type = (file.type || '').toLowerCase();
     if (type === 'application/pdf' || name.endsWith('.pdf')) return 'pdf';
+    // Explicit allow-list (matches what the page advertises). A blanket
+    // "image/*" check would also let through formats that were never meant
+    // to be supported, such as SVG or TIFF dropped onto the page.
     const imageExts = ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.bmp', '.heic', '.heif'];
-    if (type.startsWith('image/') || imageExts.some((ext) => name.endsWith(ext))) return 'image';
+    const imageMimes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif', 'image/bmp', 'image/x-ms-bmp', 'image/heic', 'image/heif'];
+    if (imageMimes.includes(type) || imageExts.some((ext) => name.endsWith(ext))) return 'image';
     return null;
   }
 
@@ -570,12 +574,12 @@
 
       const status = document.createElement('span');
       status.className = 'queue-status' + (item.status === 'exported' ? ' done' : '');
-      status.textContent = item.status === 'exported' ? 'Done' : 'Queued';
+      status.innerHTML = item.status === 'exported' ? '<i class="fa-solid fa-check" aria-hidden="true"></i> Done' : '<i class="fa-regular fa-clock" aria-hidden="true"></i> Queued';
 
       const openBtn = document.createElement('button');
       openBtn.type = 'button';
       openBtn.className = 'btn btn-ghost btn-small';
-      openBtn.textContent = item.id === activeId ? 'Editing' : 'Edit';
+      openBtn.innerHTML = item.id === activeId ? '<i class="fa-solid fa-pen" aria-hidden="true"></i> Editing' : '<i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Edit';
       openBtn.disabled = item.id === activeId;
       openBtn.addEventListener('click', () => openQueueItem(item.id));
 
@@ -601,7 +605,7 @@
     for (const file of files) {
       if (queue.length >= MAX_QUEUE_ITEMS) { hitCap = true; break; }
       const type = detectFileType(file);
-      if (!type) { toast(`Skipped "${file.name}" \u2014 unsupported file type.`); continue; }
+      if (!type) { toast(`Skipped "${file.name}" \u2014 unsupported (use PDF, JPG, PNG, WEBP, GIF, BMP or HEIC).`); continue; }
       if (file.size > MAX_FILE_BYTES) { toast(`Skipped "${file.name}" \u2014 larger than ${fmtBytes(MAX_FILE_BYTES)}.`); continue; }
 
       seqCounter += 1;
