@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obscura — redact locally, keep it local</title>
+<meta name="description" content="Drop one or more images or PDFs, black out what matters, download the clean copies in order. Everything happens in your browser — nothing is ever uploaded.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230A0C10'/%3E%3Crect x='7' y='13' width='18' height='6' rx='1' fill='%23E8B04B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      OBSCURA
+    </a>
+    <div class="nav-badge">
+      <i class="fa-solid fa-lock" aria-hidden="true"></i>
+      <span>Local-only &mdash; nothing leaves this tab</span>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Private by construction, not by policy</p>
+      <h1 class="hero-title">
+        Black out the
+        <span class="redact-word" id="redactWord">
+          <span class="rw-text">important&nbsp;part</span>
+          <span class="rw-bar" aria-hidden="true"></span>
+        </span><br>
+        before anyone else sees it.
+      </h1>
+      <p class="hero-sub">
+        Obscura opens images and PDFs directly in your browser, automatically
+        scans them for things like emails, phone numbers, card numbers and ID
+        numbers, and shows you exactly what it found before touching anything.
+        Confirm, adjust, or mark more by hand &mdash; then it strips the hidden
+        metadata too and hands you back a clean file. No server, no upload,
+        no account.
+      </p>
+      <div class="hero-cta">
+        <a href="#workspace" class="btn btn-primary">
+          <span>Start obscuring</span>
+          <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+        </a>
+        <a href="#how" class="btn btn-ghost">How it works</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <div class="how-inner">
+      <ol class="how-steps">
+        <li class="how-step reveal">
+          <div class="step-head">
+            <span class="step-index">01</span>
+            <i class="fa-solid fa-file-arrow-up step-icon" aria-hidden="true"></i>
+          </div>
+          <h3>Drop your files</h3>
+          <p>One or several at once. Each is automatically scanned for emails, phone numbers, card numbers and ID-like numbers &mdash; entirely on this device.</p>
+        </li>
+        <li class="how-step reveal">
+          <div class="step-head">
+            <span class="step-index">02</span>
+            <i class="fa-solid fa-magnifying-glass step-icon" aria-hidden="true"></i>
+          </div>
+          <h3>Review what it found</h3>
+          <p>Every match is shown before anything is hidden. Uncheck false positives, accept the rest, and draw over anything it missed &mdash; a click removes a mark.</p>
+        </li>
+        <li class="how-step reveal">
+          <div class="step-head">
+            <span class="step-index">03</span>
+            <i class="fa-solid fa-download step-icon" aria-hidden="true"></i>
+          </div>
+          <h3>Download, in order</h3>
+          <p>Hidden metadata is stripped automatically, each file is numbered by upload order, and it's saved to your local history.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- WORKSPACE -->
+  <section class="workspace" id="workspace">
+    <div class="workspace-inner">
+
+      <div class="panel glass reveal" id="dropPanel">
+        <div class="dropzone" id="dropzone" tabindex="0" role="button"
+             aria-label="Upload one or more images or PDF files">
+          <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp,image/heic,image/heif,.heic,.heif,application/pdf" multiple hidden>
+          <div class="dz-icon" aria-hidden="true">
+            <i class="fa-solid fa-file-arrow-up"></i>
+          </div>
+          <p class="dz-title">Drop images or PDFs here</p>
+          <p class="dz-sub">or click to browse &middot; select several at once &middot; processed entirely on this device</p>
+          <p class="dz-formats">JPEG &middot; PNG &middot; WEBP &middot; GIF &middot; BMP &middot; HEIC/HEIF &middot; PDF &middot; up to 60&nbsp;MB each &middot; scanned in English &amp; Bulgarian</p>
+        </div>
+      </div>
+
+      <div class="panel glass queue-panel reveal" id="queuePanel" hidden>
+        <div class="queue-head">
+          <h3><i class="fa-solid fa-list-ol" aria-hidden="true"></i> Files this session <span class="queue-count" id="queueCount">0</span></h3>
+          <p>Kept in the exact order you added them. Exported files are prefixed with their number, so your Downloads folder sorts correctly too.</p>
+        </div>
+        <div class="queue-list" id="queueList"></div>
+      </div>
+
+      <div class="panel glass editor" id="editorPanel" hidden>
+        <div class="editor-toolbar">
+          <div class="editor-file-info">
+            <span class="file-name" id="fileName">&mdash;</span>
+            <span class="file-meta" id="fileMeta">&mdash;</span>
+          </div>
+
+          <div class="editor-tools">
+            <div class="pdf-nav" id="pdfNav" hidden>
+              <button type="button" class="icon-btn" id="prevPage" aria-label="Previous page">
+                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+              </button>
+              <span class="page-indicator" id="pageIndicator">1 / 1</span>
+              <button type="button" class="icon-btn" id="nextPage" aria-label="Next page">
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+              </button>
+            </div>
+
+            <button type="button" class="icon-btn" id="undoMark" aria-label="Undo last mark" title="Undo last mark">
+              <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="icon-btn" id="clearMarks" aria-label="Clear all marks on this page" title="Clear marks">
+              <i class="fa-solid fa-eraser" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="icon-btn danger" id="removeFile" aria-label="Close this file" title="Close (stays in your queue)">
+              <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <p class="editor-hint" id="editorHint">Drag across the preview to black out a region. You can mark as many as you need.</p>
+
+        <div class="findings-panel" id="findingsPanel" hidden>
+          <div class="findings-head">
+            <p id="findingsSummary"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> 0 possible matches found</p>
+            <div class="findings-actions">
+              <button type="button" class="btn btn-ghost btn-small" id="rejectAllFindings">Reject all</button>
+              <button type="button" class="btn btn-primary btn-small" id="applyFindings">Apply accepted</button>
+            </div>
+          </div>
+          <p class="findings-note">Automatic matches are a starting point, not a guarantee &mdash; check each one below (click a row to jump to it) before applying, and mark anything else by hand.</p>
+          <div class="findings-list" id="findingsList"></div>
+        </div>
+
+        <div class="canvas-stage" id="canvasStage">
+          <canvas id="workCanvas"></canvas>
+        </div>
+
+        <div class="progress-wrap" id="progressWrap" aria-hidden="true">
+          <div class="progress-track">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <span class="progress-label" id="progressLabel">Processing&hellip;</span>
+        </div>
+
+        <div class="editor-footer">
+          <label class="mark-count">
+            <i class="fa-regular fa-eye-slash" aria-hidden="true"></i>
+            <span id="markCount">0 regions marked</span>
+          </label>
+          <button type="button" class="btn btn-primary" id="exportBtn">
+            <i class="fa-solid fa-download" aria-hidden="true"></i>
+            <span id="exportBtnLabel">Obscure &amp; download</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="history" id="history">
+    <div class="history-inner">
+      <div class="history-head reveal">
+        <div>
+          <h2>Local history</h2>
+          <p>Kept only in this browser's storage &mdash; clearing your browser data clears this too.</p>
+        </div>
+        <button type="button" class="btn btn-ghost btn-small" id="clearHistory">Clear history</button>
+      </div>
+      <div class="history-list reveal" id="historyList">
+        <p class="history-empty" id="historyEmpty">Nothing obscured yet. Your finished files will show up here.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p><strong>Nothing you open here is ever sent anywhere.</strong> Obscura runs entirely as JavaScript in this browser tab &mdash; file reading, redacting, re-encoding and history storage all happen locally. The page's own fonts/icons are the only network requests involved, and can be removed for a fully offline copy (see the README).</p>
+      <p class="footer-meta">Built for one job: make the sensitive part unreadable, then let you keep the rest &mdash; in order.</p>
+    </div>
+  </footer>
+
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/vendor/pdf.min.js"></script>
+<script src="js/vendor/pdf-lib.min.js"></script>
+<script src="vendor/tesseract/tesseract.min.js"></script>
+<script src="vendor/heic2any/heic2any.min.js"></script>
+<script src="js/processors.js"></script>
+<script src="js/scan.js"></script>
+<script src="js/app.js" defer></script>
+</body>
+</html>
